@@ -4,22 +4,137 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Weather </title>
+  <title>Weather Forecast</title>
   <link rel="stylesheet" type="text/css" href="./reset.css">
   <style>
+    /* .header{
+      text-align: center;
+    } */
+    .container {
+      display:flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+    .input-groups {
+      display: flex;
+      align-items: center;
+      margin: 50px;
+      width: 50%;
+    }
+    .input {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      /* width: 15px; */
+    }
+    .input label{
+      width: 35px;
+      margin: 5px;
+    }
+    .input-content{
+      width: 85px;
+      padding: 10px;
+      border-radius: 25px;
+      border: 1px solid #dddddd;
+    }
+    .input.search {
+      width: 45%;
+      padding-left: 25%;
+    }
+    .input button{
+      height: 30px;
+      background-color: #f3f3f3;
+      border: 1px solid #dddddd;
+      border-radius: 25px;
+
+    }
    
+    .display {
+      border: none;
+      border-collapse: collapse;
+    }
+    
+    th{
+      width:25vw;
+      height: 8vh;
+      text-align: center;
+      vertical-align: middle;
+    }
+    td{
+      background-color:#ffffff;
+      width: 25vw;
+      height: 8vh;
+      text-align: center;
+      vertical-align: middle;
+    }
+    tr{
+      border-bottom: 1px solid #dddddd;
+    }
+    tr:nth-of-type(odd) th{
+      background-color:#f3f3f3;
+    }
+    tr:nth-of-type(odd) td{
+      background-color:#f3f3f3;
+    }
   </style>
 </head>
 
 <body>
+  <!-- <header>
+    <h1>Weather Forecast</h1>
+  </header> -->
   <div class="container">
-    <div class="light red"></div>
-    <div class="light yellow"></div>
-    <div class="light green active"></div>
+   
+    <div class="input-groups">
+      <div class="input">
+        <label for="longtitude" name="longitude" >經度</label>
+        <input class="input-content" type="text" name="longtitude" id="longitude" min="-180" max="180">
+        
+      </div>
+      <div class="input">
+        <label for="latitude" name="latitude">緯度</label>
+        <input class="input-content" type="text" name="latitude" id="latitude" min="-90" max="90">
+        
+      </div>
+      <div class="input search">
+        <button  id="search" type="submit">search</button>
+      </div>
+    </div>
+    <div class="display-board">
+      <table class="display">
+        <tbody class="display-content">
+          <!-- <tr>
+            <th>當地時間</th>
+            <td>test</td>
+          </tr>
+          <tr>
+            <th>時區</th>
+            <td>test</td>
+          </tr>
+          <tr>
+            <th>地點</th>
+            <td>span經度 test   緯度 test</td>
+          </tr>
+          <tr>
+            <th>溫度</th>
+            <td>test</td>
+          </tr>
+          <tr>
+            <th>風速</th>
+            <td>test</td>
+          </tr>
+          <tr>
+            <th>海拔高度</th>
+            <td>test</td>
+          </tr> -->
+        </tbody>
+      </table>
+    </div>
   </div>
-  <script>
-    
-  </script>
+  
+  <script src="./weatherForcast.js"></script>
+  
 </body>
 
 </html>
