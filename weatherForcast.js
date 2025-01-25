@@ -64,8 +64,7 @@ async function getData(latitude, longitude) {
                 <td>${elevation}</td>
             </tr>
             `;
-        displayContent.innerHTML = '';
-        displayContent.innerHTML += renderData;
+        displayContent.innerHTML = renderData;
     } catch (error) {
         console.error('錯誤：', error);
     }
