@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Serendipity</title>
+  <link rel="stylesheet" type="text/css" href="./reset.css">
+  <style>   
+    .container {
+        margin: 30px;
+        display:block;
+        justify-content: space-around;
+    }
+    .card-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 16px;
+    }
+    .card {
+        background-color: white;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border-radius: 16px;
+        padding: 16px;
+        text-align: center;
+    }
+    h2 {
+        font-weight: bolder;
+    }
+    .user-description p{
+        display: flex;
+        flex-direction: column;
+    }
+    .avatar img{
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+  </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="card-grid">
+            
+        </div>
+    </div>
+    
+  
+  <script src="./serendipity.js"></script>
+  
+</body>
+
+</html>
