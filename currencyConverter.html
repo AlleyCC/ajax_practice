@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Currency Converter</title>
+  <link rel="stylesheet" type="text/css" href="./reset.css">
+  <style>   
+    body {
+        margin: 0;
+        padding: 0;
+        background-color: #f9f9f9;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .converter {
+      background-color: white;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      border-radius: 16px;
+      padding: 24px;
+      width: 500px;
+      text-align: center;
+    }
+
+    .converter h2 {
+      margin-bottom: 16px;
+      font-size: 1.5rem;
+    }
+
+    .converter label {
+      display: flex;
+      align-items: center;
+      margin: 5px 5px 16px 5px;
+      font-weight: bold;
+      font-size: 0.9rem;
+      text-align: center;
+    }
+
+    .converter input {
+      width: 60%;
+      padding: 8px;
+      margin-bottom: 16px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+    .converter select {
+      width: 55%;
+      padding: 8px;
+      margin: 5px 5px 16px 5px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+
+    .converter button {
+      width: 100%;
+      padding: 10px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+
+    .result {
+      margin: 35px;
+      padding: 20px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      background-color: #f9f9f9;
+      border-radius: 18px;
+    }
+    .select-wrapper {
+        display: flex;
+        justify-content: space-between;
+    }
+    .submit-btn {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    
+  </style>
+</head>
+
+<body>
+    <div class="converter">
+        <h2>Currency Converter</h2>
+        <div class="result" id="result"></div>
+        <div class="select-wrapper">
+            <input type="number" id="TWD" placeholder="TWD"> 
+    
+            <label for="to-currency">to</label>
+            <select id="to-currency">
+            </select>
+        </div>
+        
+        <button id="convert">Convert</button>  
+    </div>
+    <script>
+        const currencySelector = document.getElementById('to-currency');
+        const submitBtn = document.getElementById('convert');
+        getData();
+        // selector event binding
+        let selectedRate;
+        currencySelector.addEventListener('change', (e) => {
+            selectedRate = Number(e.target.value);
+        });
+        // button event binding
+        submitBtn.addEventListener('click', (e) => {
+            // input value
+            const input = document.getElementById('TWD');
+            const display = document.getElementById('result');
+            const inputValue = input.value;
+            if (input.value.trim() == ''){
+                alert('請輸入合法數值');
+                throw new Error('請輸入合法數值');
+            }
+            if (selectedRate == undefined || isNaN(selectedRate)){
+                alert('請選擇幣別');
+                throw new Error('請選擇幣別');
+            }
+            display.innerText = inputValue * selectedRate + '  TWD';
+        })
+
+        async function getData() {
+            try {        
+                const url = `https://api.exchangerate-api.com/v4/latest/TWD`;
+                const response = await fetch(url);
+                const data = await response.json();
+                if (!response.ok) {
+                    throw new Error(`請求失敗：${response.status}`);
+                }
+                console.log(data)
+                renderSelector(data);
+                
+            } catch (error) {
+                console.error('錯誤：', error);
+            }
+        }
+        function renderSelector(data){
+            let html = '<option>請選擇幣別</option>';
+            for (let key in data.rates){
+                let rate = data.rates[key];
+                let currency = key;
+                html += `
+                    <option value="${rate}">${currency}</option>
+                `;
+            }
+            currencySelector.innerHTML = html;
+        }
+    </script>
+</body>
+
+</html>
