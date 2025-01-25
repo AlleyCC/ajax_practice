@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Currency Converter</title>
+  <link rel="stylesheet" type="text/css" href="./reset.css">
+  <style>   
+    .container {
+        margin: 30px;
+        display:block;
+        justify-content: space-around;
+    }
+    .card-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 16px;
+    }
+    .card {
+        background-color: white;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border-radius: 16px;
+        padding: 16px;
+        text-align: center;
+    }
+    h2 {
+        font-weight: bolder;
+    }
+    .user-description p{
+        display: flex;
+        flex-direction: column;
+    }
+    .avatar img{
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+  </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="card-grid">
+           <!-- 顯示使用者列表 -->
+        </div>
+    </div>
+    <script>
+        const userCard = document.querySelector('.card-grid');
+        const repoList = document.querySelector('.repolist');
+        const repoInfo = document.querySelector('.repoInfo');
+        // get user data
+        const userlist = [
+            'vuejs',
+            'reactjs',
+            'bootstrap',
+            'jquery',
+            'angular',
+            'd3'
+        ];
+        //render user list
+        async function renderUserList(userlist){
+            const userData =  await Promise.all(userlist.map(user => {
+                getData(`https://api.github.com/users/${user}`);
+            }));
+            let html = '';
+
+            userData.forEach(user => {
+                console.log(user.avatar_url)
+                html += `
+                    <div class="card">
+                        <div class="user-wrapper">
+                            <div class="avatar">
+                                <img src=${user.avatar_url} alt="">
+                            </div>
+                            <div class="user-description">
+                                <h2>${user.login}</h2>
+                                <p>${user.bio}</p>                                 
+                                <p>${user.followers}</p>
+                                <a class="repolist"  href="https://api.github.com/users/${user.login}/repos">Repos</a>
+                            </div>    
+                        </div>                
+                    </div>
+                    <div class="repoListContainer" style="display: none;">
+                        <h3>Repos</h3>
+                        <ul class="repoInfo">
+                            
+                        </ul>
+                    </div>
+                `;
+            })
+            userCard.innerHTML = html;
+        }
+        renderUserList(userlist);
+        // get repo data
+        // full_name, description, stargazers_count
+        repoList.addEventListener('click', (e) => {
+            const url = e.target.getAttribute('href');
+            getData(url)
+                .then(res => {
+                    let html = '';
+                    res.forEach(repo => {
+                        html += `
+                            <strong>${res.full_name}</strong>
+                            <p>${res.description}</p>
+                            <p>${res.stargazers_count} Stars</p>
+                        `;
+                    })
+                    repoInfo.innerHTML = html;
+                })
+                .catch((e) => {
+                    console.error(e);
+                })
+        })
+        
+        async function getData(url) {
+            try {        
+                const response = await fetch(url);
+                const data = await response.json();
+                if (!response.ok) {
+                    throw new Error(`請求失敗：${response.status}`);
+                }
+                console.log(data)
+                
+            } catch (error) {
+                console.error('錯誤：', error);
+            }
+        }
+        
+    </script>
+</body>
+
+</html>
